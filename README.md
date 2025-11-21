@@ -1,3 +1,4 @@
 # GitFaith.github.io
-The Official Site of Faith :3
-Uhhhh Yeah, This is currently just a placeholder :D
+Work in Progress, Personal Page!
+
+Fonts used: [Monocraft](https://github.com/IdreesInc/Monocraft)
