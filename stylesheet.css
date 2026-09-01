@@ -1,8 +1,6 @@
 @font-face {
     font-family: 'Monocraft';
-    src: local('Monocraft'),
-        url('Fonts/Monocraft.otf') format('otf'),
-        url('Fonts/Monocraft.otf') format('otf');
+    src: local('Fonts/Monocraft.otf') format('otf');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
