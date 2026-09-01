@@ -2,7 +2,14 @@
 
 <head>
 <title>Faith's World!</title>
-<link href="stylesheet.css" rel="stylesheet">
+<script>
+        const cacheBuster = "?v=" + new Date().getTime();
+
+        const cssLink = document.createElement("link");
+        cssLink.rel = "stylesheet";
+        cssLink.href = "style.css" + cacheBuster;
+        document.head.appendChild(cssLink);
+    </script>
 <style>
 
 .audio{
