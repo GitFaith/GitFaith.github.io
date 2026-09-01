@@ -4,32 +4,37 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set cache-busting version
         run: |
-          VERSION=$(date +%Y%m%d%H%M%S)
-          python - <<PY
-          from pathlib import Path
+          export VERSION="$(date +%Y%m%d%H%M%S)-${GITHUB_RUN_NUMBER}"
+          python - <<'PY'
           import os
+          import re
+          from pathlib import Path
 
+          version = os.environ["VERSION"]
           index_path = Path("index.html")
           text = index_path.read_text(encoding="utf-8")
-          version = os.environ["VERSION"]
-          text = text.replace("stylesheet.css?v=20260901000000", f"stylesheet.css?v={version}")
+          text = re.sub(r"stylesheet\.css\?v=[^\"']+", f"stylesheet.css?v={version}", text)
+          text = re.sub(r"stylesheet\.css\b", f"stylesheet.css?v={version}", text)
           index_path.write_text(text, encoding="utf-8")
           PY
-        env:
-          VERSION: ${{ github.run_number }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
