@@ -3,9 +3,10 @@ name: Deploy site
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
-  group: github-pages-deploy
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -24,20 +25,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set cache-busting version
+      - name: Add cache-busting version
         run: |
-          export VERSION="$(date +%Y%m%d%H%M%S)-${GITHUB_RUN_NUMBER}"
-          python - <<'PY'
+          VERSION="$(date +%Y%m%d%H%M%S)-${GITHUB_RUN_NUMBER}"
+          export VERSION
+          python3 - <<'PY'
           import os
           import re
           from pathlib import Path
 
           version = os.environ["VERSION"]
-          index_path = Path("index.html")
-          text = index_path.read_text(encoding="utf-8")
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+
           text = re.sub(r"stylesheet\.css\?v=[^\"']+", f"stylesheet.css?v={version}", text)
           text = re.sub(r"stylesheet\.css\b", f"stylesheet.css?v={version}", text)
-          index_path.write_text(text, encoding="utf-8")
+
+          for folder in ("Images", "GIFS", "Music"):
+              text = re.sub(rf"({folder}/[^\"']+)(?<!\?v=)", rf"\1?v={version}", text)
+
+          path.write_text(text, encoding="utf-8")
           PY
 
       - name: Setup Pages
