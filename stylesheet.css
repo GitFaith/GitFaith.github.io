@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Monocraft';
     src: local('Monocraft'),
-        url('Fonts/Monocraft.woff2') format('woff2'),
+        url('Fonts/Monocraft.otf') format('otf'),
         url('Fonts/Monocraft.otf') format('otf');
     font-weight: normal;
     font-style: normal;
