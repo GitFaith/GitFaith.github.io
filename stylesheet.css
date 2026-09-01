@@ -2,7 +2,7 @@
     font-family: 'Monocraft';
     src: local('Monocraft'),
         url('Fonts/Monocraft.woff2') format('woff2'),
-        url('Fonts/Monocraft.woff') format('woff');
+        url('Fonts/Monocraft.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
